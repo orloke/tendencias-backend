@@ -39,6 +39,9 @@ interface GithubHttpError {
 
 @Injectable()
 export class GithubService {
+  private readonly githubApiUrl =
+    process.env.GITHUB_API_URL || 'https://api.github.com';
+
   constructor(
     private readonly httpService: HttpService,
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
@@ -66,7 +69,7 @@ export class GithubService {
     try {
       const response = await firstValueFrom(
         this.httpService.get<GithubProfile>(
-          `https://api.github.com/users/${username}`,
+          `${this.githubApiUrl}/users/${username}`,
           {
             headers: this.getHeaders(),
           },
@@ -94,7 +97,7 @@ export class GithubService {
     try {
       const response = await firstValueFrom(
         this.httpService.get<GithubRepo[]>(
-          `https://api.github.com/users/${username}/repos?per_page=100`,
+          `${this.githubApiUrl}/users/${username}/repos?per_page=100`,
           {
             headers: this.getHeaders(),
           },

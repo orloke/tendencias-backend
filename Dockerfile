@@ -12,6 +12,7 @@ FROM node:20-slim AS runner
 RUN apt-get update -y && apt-get install -y openssl && rm -rf /var/lib/apt/lists/*
 WORKDIR /usr/src/app
 ENV NODE_ENV=production
+ENV PORT=8080
 
 COPY package*.json tsconfig*.json nest-cli.json prisma.config.ts ./
 COPY --from=builder /usr/src/app/node_modules ./node_modules
